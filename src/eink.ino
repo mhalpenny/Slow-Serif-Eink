@@ -18,11 +18,6 @@
 //e-ink 
 #include "Particle.h"
 
-//TCPClient client;
-//byte server[] = { 192, 168, 31, 27 }; // to the queen(one as a server photon)  wlan IP
-//UDP udp;
-//IPAddress broadcast(192,168,31,255);
-
 unsigned long firstAvailable = 0;
 int counter;
 //String novella = "";
@@ -46,10 +41,11 @@ void startupFunctions() {
 //SystemSleepConfiguration config;
 
 void setup() {
+
     Particle.publish("Sleep", "State", 0, PUBLIC);
     //Particle.publish("Switch", "Value", 0, PUBLIC);
     pinMode(wakeUpSwitch, INPUT_PULLDOWN);
-
+    
 }
 
 void loop() {

@@ -6,8 +6,12 @@
 // This #include statement was automatically added by the Particle IDE.
 #include <GxEPD2_PP.h>
 #include <Adafruit_GFX_RK.h>
-//#define ENABLE_GxEPD2_GFX 0
+#define ENABLE_GxEPD2_GFX 0
 #include <Arduino.h>
+void startupFunctions();
+void setup();
+void loop();
+#line 6 "x:/Developer/Particle/eink-project/src/eink.ino"
 //#include <Adafruit_GFX.h>
 #include <FreeMonoBold9pt7b.h>
 #include <GxEPD2_BW.h>
@@ -22,17 +26,6 @@
 
 //e-ink 
 #include "Particle.h"
-void startupFunctions();
-void setup();
-void loop();
-#line 20 "x:/Developer/Particle/eink-project/src/eink.ino"
-#define PORT    9009
-#define TCP_COMMUNICATION
-
-//TCPClient client;
-//byte server[] = { 192, 168, 31, 27 }; // to the queen(one as a server photon)  wlan IP
-//UDP udp;
-//IPAddress broadcast(192,168,31,255);
 
 unsigned long firstAvailable = 0;
 int counter;
@@ -57,10 +50,11 @@ void startupFunctions() {
 //SystemSleepConfiguration config;
 
 void setup() {
+
     Particle.publish("Sleep", "State", 0, PUBLIC);
     //Particle.publish("Switch", "Value", 0, PUBLIC);
     pinMode(wakeUpSwitch, INPUT_PULLDOWN);
-
+    
 }
 
 void loop() {

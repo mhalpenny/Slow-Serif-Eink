@@ -29,13 +29,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  12 .debug_ranges 00004f90  00000000  00000000  00172a5f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00029938  00000000  00000000  001779ef  2**0
+ 13 .debug_macro  0002992c  00000000  00000000  001779ef  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_line   0002d399  00000000  00000000  001a1327  2**0
+ 14 .debug_line   0002d399  00000000  00000000  001a131b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    000b5e66  00000000  00000000  001ce6c0  2**0
+ 15 .debug_str    000b5e49  00000000  00000000  001ce6b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_frame  00005098  00000000  00000000  00284528  2**2
+ 16 .debug_frame  00005098  00000000  00000000  00284500  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -195,6 +195,7 @@ void setup() {
       ~__shared_ptr() = default;
  80a00fe:	a803      	add	r0, sp, #12
  80a0100:	f7ff ffdb 	bl	80a00ba <_ZNSt14__shared_countILN9__gnu_cxx12_Lock_policyE0EED1Ev>
+
     Particle.publish("Sleep", "State", 0, PUBLIC);
     //Particle.publish("Switch", "Value", 0, PUBLIC);
     pinMode(wakeUpSwitch, INPUT_PULLDOWN);
@@ -202,7 +203,7 @@ void setup() {
  80a0106:	2103      	movs	r1, #3
  80a0108:	8818      	ldrh	r0, [r3, #0]
  80a010a:	f001 f9cf 	bl	80a14ac <pinMode>
-
+    
 }
  80a010e:	b005      	add	sp, #20
  80a0110:	f85d fb04 	ldr.w	pc, [sp], #4
