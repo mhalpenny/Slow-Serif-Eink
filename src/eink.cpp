@@ -4,13 +4,13 @@
 
 #line 1 "x:/Developer/Particle/eink-project/src/eink.ino"
 // This #include statement was automatically added by the Particle IDE.
-//#include <GxEPD2_PP.h>
+#include <GxEPD2_PP.h>
 #include <Adafruit_GFX_RK.h>
 //#define ENABLE_GxEPD2_GFX 0
 #include <Arduino.h>
 //#include <Adafruit_GFX.h>
 #include <FreeMonoBold9pt7b.h>
-//#include <GxEPD2_BW.h>
+#include <GxEPD2_BW.h>
 //#include <GxEPD2_3C.h>
 //#include <SPI.h> //idk if i need this one
 

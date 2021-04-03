@@ -1,11 +1,11 @@
 // This #include statement was automatically added by the Particle IDE.
-//#include <GxEPD2_PP.h>
+#include <GxEPD2_PP.h>
 #include <Adafruit_GFX_RK.h>
-//#define ENABLE_GxEPD2_GFX 0
+#define ENABLE_GxEPD2_GFX 0
 #include <Arduino.h>
 //#include <Adafruit_GFX.h>
 #include <FreeMonoBold9pt7b.h>
-//#include <GxEPD2_BW.h>
+#include <GxEPD2_BW.h>
 //#include <GxEPD2_3C.h>
 //#include <SPI.h> //idk if i need this one
 
@@ -17,8 +17,6 @@
 
 //e-ink 
 #include "Particle.h"
-#define PORT    9009
-#define TCP_COMMUNICATION
 
 //TCPClient client;
 //byte server[] = { 192, 168, 31, 27 }; // to the queen(one as a server photon)  wlan IP
