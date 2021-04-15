@@ -1,23 +1,18 @@
-// This #include statement was automatically added by the Particle IDE.
+//~~~ INCLUDE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #include <GxEPD2_PP.h>
 #include <Adafruit_GFX_RK.h>
 #define ENABLE_GxEPD2_GFX 0
 #include <Arduino.h>
-//#include <Adafruit_GFX.h>
 #include <FreeMonoBold9pt7b.h>
 #include <GxEPD2_BW.h>
-//#include <GxEPD2_3C.h>
-//#include <SPI.h> //idk if i need this one
 
-//#if defined(PARTICLE)
-//GxEPD2_3C<GxEPD2_750c, GxEPD2_750c::HEIGHT / 4 > display(GxEPD2_750c(/*CS=D5*/ SS, /*DC=*/ A1, /*RST=*/ A0, /*BUSY=*/ D4));
-//#endif
-
-//#include "images.h"
-
-//e-ink 
+//~~~ EINK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #include "Particle.h"
+#define MAX_DISPAY_BUFFER_SIZE 15000ul // ~15k is a good compromise
+#define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPAY_BUFFER_SIZE / (EPD::WIDTH / 8))
+#define MAX_HEIGHT_3C(EPD) (EPD::HEIGHT <= (MAX_DISPAY_BUFFER_SIZE / 2) / (EPD::WIDTH / 8) ? EPD::HEIGHT : (MAX_DISPAY_BUFFER_SIZE / 2) / (EPD::WIDTH / 8)) GxEPD2_3C<GxEPD2_213c, MAX_HEIGHT_3C(GxEPD2_213c)> display(GxEPD2_213c(/*CS=*/ A2, /*DC=*/ D2, /*RST=*/ D1, /*BUSY=*/ D0));
 
+//~~~ GLOBAL VAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned long firstAvailable = 0;
 int counter;
 //String novella = "";
@@ -29,6 +24,7 @@ int sleepMode = 0;
 int swState = 0;
 int val = 0;
 
+//~~~ STARTUP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 STARTUP(startupFunctions());
 
 void startupFunctions() {   
@@ -38,29 +34,19 @@ void startupFunctions() {
     //SYSTEM_MODE(MANUAL);
 }
 
-//SystemSleepConfiguration config;
-
+//~~~ SETUP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void setup() {
 
     Particle.publish("Sleep", "State", 0, PUBLIC);
     //Particle.publish("Switch", "Value", 0, PUBLIC);
     pinMode(wakeUpSwitch, INPUT_PULLDOWN);
-    
 }
 
+//~~~ LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void loop() {
     
-//--- START NOT IN USE -----------
-
-     // bool wifiReady = WiFi.ready();
-    //WiFi.useStaticIP(); //cuts down on data
-    
-    //tell the server to generate word     
-   // udp.begin(11200);
-   // udp.beginPacket(broadcast, PORT);
-   // udp.write(5);
-   // udp.endPacket();
-    
+    //--- START NOT IN USE -----------
+   
     //receive new word
     //String word = '';
     
@@ -69,31 +55,21 @@ void loop() {
     
     //refresh e-ink via SPI
     
-//--- END NOT IN USE -----------
+    //--- END NOT IN USE -----------
             
-            //RESET SLEEP VARIABLE
-    		sleepMode = 0;
-			Particle.publish("Sleep", sleepMode ? "ON" : "OFF");
-			delay(3000);
-     
-            //START SLEEP VARIABLE
-            sleepMode = !sleepMode;
-            Particle.publish("Sleep", sleepMode ? "ON" : "OFF");
-			delay(3000);
-			
-			//CHECK VALUE OF MAGNETIC SWITCH
-		    //val = digitalRead(wakeUpSwitch);
-			//Particle.publish("Switch", String(val));
-			//delay(1200);
-
-			//--- TEST STOP MODES ---
-			//STOP SLEEP System.sleep(pin, edge, timeout)
-            //System.sleep(uint16_t wakeupPin, uint16_t CHANGE, DAY_CYCLE);
-            //System.sleep(uint16_t wakeUpPin, uint16_t edgeTriggerMode);
-           
-           //SLEEP STOP
-           System.sleep(wakeUpSwitch, FALLING);
-           
-           //POST-SLEEP
+        //RESET SLEEP VARIABLE
+        sleepMode = 0;
+        Particle.publish("Sleep", sleepMode ? "ON" : "OFF");
+        delay(3000);
+    
+        //START SLEEP VARIABLE
+        sleepMode = !sleepMode;
+        Particle.publish("Sleep", sleepMode ? "ON" : "OFF");
+        delay(3000);
+        
+        //SLEEP STOP
+        System.sleep(wakeUpSwitch, FALLING);
+        
+        //POST-SLEEP
 
 }
