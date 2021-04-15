@@ -8,6 +8,7 @@
 
 //~~~ EINK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #include "Particle.h"
+int Variable1;  
 
 //set parameters for eink display
 #if defined(PARTICLE)
@@ -51,11 +52,14 @@ void setup() {
     pinMode(wakeUpSwitch, INPUT_PULLDOWN);
 
     //EINK
-    setupEink();
+    //setupEink();
+    setupText();
 }
 
 //~~~ LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void loop() {
+
+    loopEink();
     
     //--- START NOT IN USE -----------
    
@@ -122,6 +126,116 @@ void setupEink(){
   display.powerOff();
   deepSleepTest();
   Serial.println("setup done");
+}
+
+void setupText(){
+
+  display.init(115200);  // Initiate the display
+  
+  display.setRotation(0);  // Set orientation. Goes from 0, 1, 2 or 3
+  
+  display.setTextWrap(false);  // By default, long lines of text are set to automatically “wrap” back to the leftmost column.
+                               // To override this behavior (so text will run off the right side of the display - useful for
+                               // scrolling marquee effects), use setTextWrap(false). The normal wrapping behavior is restored
+                               // with setTextWrap(true).
+}
+
+void loopEink(){
+    Variable1++;  // Increase variable by 1
+  if(Variable1 > 150)  // If Variable1 is greater than 150
+  {
+    Variable1 = 0;  // Set Variable1 to 0
+  }
+  
+  
+  
+  
+  // Convert Variable1 into a string, so we can change the text alignment to the right:
+  // It can be also used to add or remove decimal numbers.
+  char string[10];  // Create a character array of 10 characters
+  // Convert float to a string:
+  dtostrf(Variable1, 3, 0, string);  // (<variable>,<amount of digits we are going to use>,<amount of decimal digits>,<string name>)
+  
+  
+  
+  
+  
+  
+  
+  // Demo Screen 1: Text, values and shapes
+  
+  display.setFullWindow();  // Set full window mode, meaning is going to update the entire screen
+  
+  // Here we use paged drawing, even if the processor has enough RAM for full buffer
+  // so this can be used with any supported processor board.
+  // the cost in code overhead and execution time penalty is marginal
+  display.firstPage();  // Tell the graphics class to use paged drawing mode
+  do
+  {
+    // Put everything you want to print in this screen:
+    
+    display.fillScreen(GxEPD_WHITE);  // Clear previous graphics to start over to print new things.
+    
+    // Print text - "Hello World!":
+    display.setTextColor(GxEPD_BLACK);  // Set color for text
+    display.setFont(&FreeMonoBold9pt7b);  // Set font
+    display.setCursor(0, 15);  // Set the position to start printing text (x,y)
+    display.println("Hello World!");  // Print some text
+    
+    
+    // Draw triangle:
+    display.drawTriangle(0,85,   20,60,   40,85,   GxEPD_BLACK);  // Draw triangle. X, Y coordinates for three corner points defining the triangle, followed by a color
+    
+    // Draw filled triangle:
+    display.fillTriangle(110,85,   130,60,   150,85,   GxEPD_BLACK);  // Draw filled triangle. X, Y coordinates for three corner points defining the triangle, followed by a color
+    
+    // Draw line:
+    display.drawLine(74,20,   74,80,   GxEPD_BLACK);  // Draw line (x0,y0,x1,y1,color)
+    
+    // Draw rounded rectangle and fill:
+    display.fillRoundRect(48,60,   20,25,   5, GxEPD_BLACK);  // Draw filled rounded rectangle (x,y,width,height,color)
+                                                   // It draws from the location to down-right
+    
+    // Draw circle:
+    display.drawCircle(95,70,   15, GxEPD_BLACK);  //  Draw circle (x,y,radius,color). X and Y are the coordinates for the center point
+    
+    // Draw a filled circle:
+    display.fillCircle(100,75,   7, GxEPD_BLACK);  // Draw filled circle (x,y,radius,color). X and Y are the coordinates for the center point
+    
+    // Draw rectangle:
+    display.drawRect(8,25,   49,27, GxEPD_BLACK);  // Draw rectangle (x,y,width,height,color)
+                                           // It draws from the location to down-right
+    
+    // Print variable with left alignment:
+    display.setTextColor(GxEPD_BLACK);  // Set color for text
+    display.setFont(&FreeMonoBold12pt7b);  // Set font
+    display.setCursor(12, 45);  // Set the position to start printing text (x,y)
+    display.println(Variable1);  // Print some text
+      
+    
+    // Draw rounded rectangle:
+    display.drawRoundRect(91,25,   49,27,   8, GxEPD_BLACK);  // Draw rounded rectangle (x,y,width,height,radius,color)
+                                                    // It draws from the location to down-right
+    
+    // Print variable with right alignment:
+    display.setTextColor(GxEPD_BLACK);  // Set color for text
+    display.setFont(&FreeMonoBold12pt7b);  // Set font
+    display.setCursor(93, 45);  // Set the position to start printing text (x,y)
+    display.println(string);  // Print some text
+  }
+  // Tell the graphics class to transfer the buffer content (page) to the controller buffer.
+  // The graphics class will command the controller to refresh to the screen when the last
+  // page has been transferred.
+  // Returns true if more pages need be drawn and transferred.
+  // Returns false if the last page has been transferred and the screen refreshed for
+  // panels without fast partial update.
+  // Returns false for panels with fast partial update when the controller buffer has
+  // been written once more, to make the differential buffers equal.
+  // For full buffered with fast partial update the (full) buffer is just transferred
+  // again, and false returned.
+  while (display.nextPage());  // Print everything we set previously
+  // End of screen 1
+  
 }
 
 void helloWorld()
